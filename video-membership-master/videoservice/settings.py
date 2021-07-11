@@ -13,6 +13,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'whitenoise.runserver_nostatic', #whitenoise
     'django.contrib.staticfiles',
     
     'django.contrib.sites',
@@ -73,6 +74,8 @@ DATABASES = {
         'PORT': '',
     }
 }
+
+WHITENOISE_USE_FINDERS = True
 
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
