@@ -1,5 +1,5 @@
 static_root
-.env
+env
 **/*.pyc
 **/__pycache__
 db.sqlite3
