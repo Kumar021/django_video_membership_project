@@ -152,4 +152,4 @@ ACCOUNT_FORMS = {
 }
 
 
-STATICFILES_STORAGE = 'whitenoise.django.CompressedManifestStaticFilesStorage'
+#STATICFILES_STORAGE = 'whitenoise.django.CompressedManifestStaticFilesStorage'
