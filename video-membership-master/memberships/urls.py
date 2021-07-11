@@ -5,7 +5,8 @@ from .views import (
     PaymentView,
     updateTransactionRecords,
     profile_view,
-    cancelSubscription
+    cancelSubscription,
+    billing_address
 )
 
 app_name = 'memberships'

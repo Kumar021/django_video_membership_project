@@ -1,8 +1,15 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import logout
 from django.views.generic import ListView, DetailView, View
 from memberships.models import UserMembership
 from .models import Course, Lesson
+
+def logout_view(request):
+    logout(request) 
+    return redirect('courses:list')
+
+
 
 
 class CourseListView(ListView):

@@ -7,7 +7,7 @@
 	<div class="row">
 		<div class="card mt-3 mb-3 pxy-3" style="width: 18rem;">
 		  <div class="card-header">
-		    Subscription : 
+		    Subscription
 		  </div>
 		  {% if user_subscription != None %}
 		  <ul class="list-group list-group-flush">
@@ -27,12 +27,6 @@
 				{% endif %}
 		    </li>
 		  </ul>
-		  {% else %}
-		  <ul class="list-group list-group-flush">
-		    <li class="list-group-item">
-		    	<h6>Active: {{user_membership.membership}} </h6>
-		    </li>
-		   </ul>
 		  {% endif %}
 		</div>
 		<div class="card mt-3 mb-3 pxy-3" style="width: 18rem;">
@@ -40,30 +34,28 @@
 		    Billing Address
 		  </div>
 		  {% if address_obj %}
-				 <ul class="list-group list-group-flush">
-				    <li class="list-group-item">
-				    	Address1: {{address_obj.address1}} 
-				    </li>
-				    {% if address_obj.address2 %}
-				    <li class="list-group-item">
-				    	Address2: {{address_obj.address2}} 
-				    </li>
-				    {% endif %}
-				     <li class="list-group-item">
-				    	City: {{address_obj.city}} 
-				    </li>
-				    <li class="list-group-item">
-				    	State: {{address_obj.state}} 
-				    </li>
-				    <li class="list-group-item">
-				    	Zip_code: {{address_obj.zip_code}} 
-				    </li>
-				    <li class="list-group-item">
-				    	Country: {{address_obj.country}} 
-				    </li>
-				 </ul>
-			{% else %}
-			  <a href="{% url 'billing' %}"> Add billing Address </a>
+		  <ul class="list-group list-group-flush">
+		    <li class="list-group-item">
+		    	Address1: {{address_obj.address1}} 
+		    </li>
+		    {% if address_obj.address2 %}
+		    <li class="list-group-item">
+		    	Address2: {{address_obj.address2}} 
+		    </li>
+		    {% endif %}
+		     <li class="list-group-item">
+		    	City: {{address_obj.city}} 
+		    </li>
+		    <li class="list-group-item">
+		    	State: {{address_obj.state}} 
+		    </li>
+		    <li class="list-group-item">
+		    	Zip_code: {{address_obj.zip_code}} 
+		    </li>
+		    <li class="list-group-item">
+		    	Country: {{address_obj.country}} 
+		    </li>
+		  </ul>
 		  {% endif %}
 		</div>
 	</div>

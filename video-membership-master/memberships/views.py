@@ -5,13 +5,16 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views.generic import ListView
+from django.contrib.auth.models import User
 from django.urls import reverse
 
-from .models import Membership, UserMembership, Subscription
+from .models import Membership, UserMembership, Subscription, Address
 
 import stripe
 
 import razorpay
+
+# User = settings.AUTH_USER_MODEL
 
 def get_user_membership(request):
     user_membership_qs = UserMembership.objects.filter(user=request.user)
@@ -37,13 +40,50 @@ def get_selected_membership(request):
         return selected_membership_qs.first()
     return None
 
+def get_billing_address(request):
+    address_qs = Address.objects.filter(user=request.user)
+    if address_qs.count() == 1:
+        return address_qs.first()
+    return None
+
+@login_required
+def billing_address(request):
+    if request.method == "POST":
+        name = request.POST["name"]
+        address1 = request.POST["address1"]
+        address2 = request.POST["address2"]
+        city = request.POST["city"]
+        state = request.POST["state"]
+        zip_code = request.POST["zip_code"]
+        country = request.POST["country"]
+
+        address_obj = Address.objects.create(
+                user = request.user,
+                address1 = address1,
+                address2 = address2,
+                city = city,
+                state = state,
+                zip_code = zip_code,
+                country = country
+            )
+        user_obj = User.objects.filter(username=request.user).update(first_name=name)
+        messages.info(request, "Address added successfully!!!")
+        return redirect("memberships:profile")
+
+    context = {}
+    return render(request, "memberships/billing_address.html", context)
+
 @login_required
 def profile_view(request):
     user_membership = get_user_membership(request)
     user_subscription = get_user_subscription(request)
+    billing_obj = get_billing_address(request)
+    # if billing_obj is None:
+    #     return redirect('billing')
     context = {
-        # 'user_membership': user_membership,
-        # 'user_subscription': user_subscription
+        'user_membership': user_membership,
+        'user_subscription': user_subscription,
+        'address_obj': billing_obj
     }
     return render(request, "memberships/profile.html", context)
 
@@ -78,6 +118,10 @@ class MembershipSelectView(LoginRequiredMixin, ListView):
 
 @login_required
 def PaymentView(request):
+    billing_obj = get_billing_address(request)
+    if billing_obj is None:
+        return redirect('billing')
+
     user_membership = get_user_membership(request)
     try:
         selected_membership = get_selected_membership(request)
@@ -94,26 +138,44 @@ def PaymentView(request):
             First we need to add the source for the customer
             '''
 
+            address_qs = Address.objects.filter(user=request.user)
+            address_obj = None
+            if address_qs.count() == 1:
+                address_obj = address_qs.first()
+            if address_obj is None:
+                messages.info(request, "Address is required!!")
+                return redirect('memberships:profile')
+            address = {
+                'line1': address_obj.address1,
+                'line2': address_obj.address2,
+                'postal_code': address_obj.zip_code,
+                'city': address_obj.city,
+                'state': address_obj.state,
+                'country': address_obj.country,
+            }
             customer = stripe.Customer.retrieve(user_membership.stripe_customer_id)
+            customer.address = address
+            customer.name = request.user
             customer.source = token # 4242424242424242
             customer.save()
 
-            '''
-            Now we can create the subscription using only the customer as we don't need to pass their
-            credit card source anymore
-            '''
+            # '''
+            # Now we can create the subscription using only the customer as we don't need to pass their
+            # credit card source anymore
+            # '''
 
             subscription = stripe.Subscription.create(
                 customer=user_membership.stripe_customer_id,
                 items=[
-                    { "plan": selected_membership.stripe_plan_id },
+                    # { "plan": selected_membership.stripe_plan_id },
+                    {"price": selected_membership.stripe_plan_id},
                 ]
             )
-
             return redirect(reverse('memberships:update-transactions',
                                     kwargs={
                                         'subscription_id': subscription.id
                                     }))
+                
 
         except:
             messages.info(request, "An error has occurred, investigate it in the console")

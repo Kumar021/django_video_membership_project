@@ -3,10 +3,10 @@
 
 {% block content %}
 <div class="container">
-	<h1>Select a membership</h1>
+	<h2>Select a membership</h2>
 	<div class="row">
 		{% for object in object_list %}
-		<div class="col-sm-4 col-md-4">
+		<div class="col-sm-4 col-md-4 border border-primary mt-3 mb-5">
 			<h2>{{ object.membership_type }}</h2>
 			<p>Price: ${{ object.price }}<small>/month</small></p>
 			<h4>Included Courses</h4>

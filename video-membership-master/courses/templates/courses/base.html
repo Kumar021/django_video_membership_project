@@ -1,31 +1,61 @@
 <!DOCTYPE html>
 <html>
 <head>
+	 <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 	<title>Django Video Membership</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <body>
 
-	{% include 'courses/messages.html' %}
+	
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		  <div class="container">
+		    <a class="navbar-brand" href="#">DVideoMem</a>
+		    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		      <span class="navbar-toggler-icon"></span>
+		    </button>
+		    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+		      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+		        <li class="nav-item">
+		          <a class="nav-link active" aria-current="page" href="/">Courses</a>
+		        {% if request.user.is_authenticated %}
+		        <li class="nav-item">
+		          <a class="nav-link" href="/memberships/">Membership</a>
+		        </li>
+		        <li class="nav-item dropdown">
+		          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+		            {{request.user|title}}
+		          </a>
+		          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+		            <li><a class="dropdown-item" href="{% url 'memberships:profile' %}">Profile</a></li>
+		            <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+		          </ul>
+		        </li>
+		        {% else %}
+		        <li class="nav-item">
+		          <a class="nav-link" href="/accounts/login">Login</a>
+		        </li>
+		        {% endif %}
+		      </ul>
+		      <form class="d-flex">
+		        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+		        <button class="btn btn-outline-success" type="submit">Search</button>
+		      </form>
 
-	<div class="container">
-		<ol class='breadcrumb'>
-	        <li><a href="{% url 'memberships:profile' %}">Profile</a></li>
-	        
-	        {% block post_detail_link %}
-	        {% endblock %}
+		    </div>
+		  </div>
+		</nav>
 
-	        {% if not request.user.is_authenticated %}
-	        <li class='pull-right'><a href='/register'>Register</a></li>
-	        <li class='pull-right'><a href='/login'>Login</a></li>
-	        {% else %}
-	        <li class='pull-right'><a href='/memberships'>Memberships</a></li>
-	        {% endif %}
-	    </ol>
-	</div>
+	
 
-	{% block content %}
-	{% endblock content %}
+			{% include 'courses/messages.html' %}
+
+			{% block content %}
+			{% endblock content %}
+
 
 	<script
   	src="https://code.jquery.com/jquery-3.3.1.js"
@@ -33,5 +63,7 @@
   	crossorigin="anonymous"></script>
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	 <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>

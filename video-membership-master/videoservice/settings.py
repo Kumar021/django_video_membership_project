@@ -1,9 +1,10 @@
 import os
+from decouple import config
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SECRET_KEY = '7w6ggl1i%3wq4%x_4z13gnkf07bg0nx7sg34kerj&3@eq#n0(h'
-DEBUG = True
-ALLOWED_HOSTS = []
+SECRET_KEY = config("SECRET_KEY")
+DEBUG = config("DEBUG")
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -37,14 +38,14 @@ ROOT_URLCONF = 'videoservice.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), os.path.join(BASE_DIR, 'templates', 'allauth')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+                'django.contrib.messages.context_processors.messages'
             ],
         },
     },
@@ -88,23 +89,14 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(VENV_PATH, 'media_root')
 
 if DEBUG:
-    STRIPE_PUBLISHABLE_KEY = '788888888'
-    STRIPE_SECRET_KEY = 'uiifooofoo'
+    STRIPE_PUBLISHABLE_KEY = config("STRIPE_PUBLISHABLE_KEY")
+    STRIPE_SECRET_KEY = config("STRIPE_SECRET_KEY")
 
 else:
     # live keys
     STRIPE_PUBLISHABLE_KEY = ''
     STRIPE_SECRET_KEY = ''
 
-
-if DEBUG:
-    RAZORPAY_PUBLIC_KEY = 'rzp_test_HOYWm3nwuxFXv0'
-    RAZORPAY_SECRET_KEY = 'iO19lJw66896IW4j8X3T6YXE'
-
-else:
-    # live keys
-    RAZORPAY_PUBLIC_KEY = ''
-    RAZORPAY_SECRET_KEY = ''
 
 # Django allauth
 
@@ -113,4 +105,17 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
+
 SITE_ID = 1
+
+ACCOUNT_ADAPTER = 'courses.adapter.AccountAdapter'
+LOGIN_REDIRECT_URL = '/memberships'
+ACCOUNT_EMAIL_VERIFICATION = "none"
+
+ACCOUNT_FORMS = {
+   'login': 'courses.forms.MyCustomLoginForm',
+   'signup': 'courses.forms.MyCustomSignupForm'
+}
+
+
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'

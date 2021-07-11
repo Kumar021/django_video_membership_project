@@ -2,12 +2,16 @@
 
 {% block content %}
 	<div class="container">
-		<div class="row">
-			<div class="col-sm-4 col-md-4">
-				<h1>Course List View Page</h1>
-				{% for object in object_list %}
-					<a href="{{ object.get_absolute_url }}">{{ object }}</a>
-				{% endfor %}
+		<div class="row mt-5">
+			<div class="card" style="">
+			  <div class="card-header">
+			    Course List
+			  </div>
+			  <ul class="list-group list-group-flush">
+			  	{% for object in object_list %}
+			    	<li class="list-group-item"><p><a href="{{ object.get_absolute_url }}">{{ object }}</a></p></li>
+			    {% endfor %}
+			  </ul>
 			</div>
 		</div>
 	</div>
