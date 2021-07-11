@@ -5,7 +5,7 @@ from decouple import config
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config("SECRET_KEY")
 DEBUG = config("DEBUG")
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'demo-dj-video-memship.herokuapp.com']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -13,7 +13,6 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'whitenoise.runserver_nostatic', #whitenoise
     'django.contrib.staticfiles',
     
     'django.contrib.sites',
