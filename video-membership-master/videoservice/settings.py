@@ -9,7 +9,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = config("SECRET_KEY")
 DEBUG = config("DEBUG")
-ALLOWED_HOSTS = ['localhost', 'dj-video-demo.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.0', 'localhost', 'dj-video-demo.herokuapp.com']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
