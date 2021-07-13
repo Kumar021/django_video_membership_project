@@ -1,22 +1,22 @@
 {% if messages %}
 
- 	<style type="text/css">
- 		div.messages{
- 			background-color: #ff6b6b;
- 			color: #f7fff7;
- 		}
- 		ul.messages{
- 			list-style-type: none;
- 		}
- 	</style>
+   {% for message in messages %} 
+        <div class="container" id="message">
+                <div class="alert alert-{{ message.tags }} alert-dismissible text-center" role="alert">
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
 
-    <div class='messages'>
+                    </button>
+                    <strong>
+                        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                           Error:
+                        {% else %} 
+                           {{ message.tags|title}}
+                        {% endif %}
+                    </strong>
+                    {{ message }}
+                </div>
+        </div>
+   {% endfor %}
 
-    <ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{% if "html_safe" in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}</li>
-    {% endfor %}
-    </ul>
-
-    </div>
 {% endif %}
