@@ -8,7 +8,7 @@
 
 <div class="container">
 	<div class="row">
-		<h1>Payment</h1>
+		<h1>Payment : Use Card: 4242424242424242</h1>
 		<div class="col-sm-4 col-md-4">
 			<p>Selected membership: {{ selected_membership }}</p>
 			<p>Price: <strong>${{ selected_membership.price }}</strong><small>/month</small></p>
@@ -129,8 +129,8 @@ var stripe = Stripe('pk_test_NXwLG0COesMPWGfOENXOfXDR00jVjhPiPA');
   });
 
   function stripeTokenHandler(token) {
-    successElement.className = '';
-    successElement.querySelector('.token').textContent = token.id;
+    // successElement.className = '';
+    // successElement.querySelector('.token').textContent = token.id;
     // Insert the token ID into the form so it gets submitted to the server
     var form = document.getElementById('payment-form');
     var hiddenInput = document.createElement('input');
