@@ -17,7 +17,7 @@
             {% csrf_token %}
             {{ form.as_p }}
             {% if redirect_field_value %}
-            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+            <input type="hidden" name="{{ redirect_field_name }}" value="/memberships/profile/" />
             {% endif %}
             <div class="input-group mb-3">
               <button class="primaryAction btn btn-primary mb-3" type="submit">{% trans "Sign Up" %}</button>
